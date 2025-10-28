@@ -1,0 +1,24 @@
+[
+  {
+    "fullname": "Juju",
+    "email": "juju1@example.com",
+    "password": "1492dbd6ec8c04f29857d7111fd3dc4f3e36b30a04804921c1d5829d0439c7e1",
+    "gender": "Male",
+    "dob": "2003-10-27",
+    "interests": [
+      "Female"
+    ],
+    "bio": "Hi!"
+  },
+  {
+    "fullname": "example",
+    "email": "example@gmail.com",
+    "password": "6165d066d7dca67b64005d450b0d40ea06f58434084c54134d2e77fe190e47a7",
+    "gender": "Male",
+    "dob": "2001-10-11",
+    "interests": [
+      "Female"
+    ],
+    "bio": "Smart"
+  }
+]
