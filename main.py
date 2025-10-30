@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
+
 # from tkcalendar import DateEntry  # Commented out due to navigation button issues
 import json
 import os
@@ -72,10 +73,10 @@ class DatingApp:
 
     def create_custom_date_entry(self, parent):
         """Create a custom date entry widget with working navigation"""
-        
+
         # Main frame for the date entry
         date_frame = tk.Frame(parent, bg="#FFE5E5")
-        
+
         # Entry field
         entry = tk.Entry(
             date_frame,
@@ -83,10 +84,10 @@ class DatingApp:
             width=20,
             relief=tk.SOLID,
             bd=2,
-            justify=tk.CENTER
+            justify=tk.CENTER,
         )
         entry.pack(side=tk.LEFT, padx=(0, 5))
-        
+
         # Calendar button
         cal_btn = tk.Button(
             date_frame,
@@ -97,34 +98,34 @@ class DatingApp:
             relief=tk.FLAT,
             cursor="hand2",
             width=3,
-            command=lambda: self.show_calendar_popup(entry)
+            command=lambda: self.show_calendar_popup(entry),
         )
         cal_btn.pack(side=tk.LEFT)
-        
+
         # Add hover effects
         cal_btn.bind("<Enter>", lambda e: cal_btn.config(bg="#FF1493"))
         cal_btn.bind("<Leave>", lambda e: cal_btn.config(bg="#FF69B4"))
-        
+
         # Set default value to today
         today = datetime.now().strftime("%Y-%m-%d")
         entry.insert(0, today)
-        
+
         return date_frame
 
     def show_calendar_popup(self, entry_widget):
         """Show a calendar popup window"""
-        
+
         # Create popup window
         popup = tk.Toplevel(self.root)
         popup.title("Select Date")
         popup.geometry("330x360")
         popup.configure(bg="#FFE5E5")
         popup.resizable(False, False)
-        
+
         # Center the popup
         popup.transient(self.root)
         popup.grab_set()
-        
+
         # Get current date from entry or use today
         current_date_str = entry_widget.get().strip()
         if current_date_str and len(current_date_str) == 10:
@@ -134,19 +135,19 @@ class DatingApp:
                 current_date = datetime.now()
         else:
             current_date = datetime.now()
-        
+
         # Calendar variables
         self.cal_year = current_date.year
         self.cal_month = current_date.month
-        
+
         # Header frame
         header_frame = tk.Frame(popup, bg="#FF69B4")
         header_frame.pack(fill=tk.X)
-        
+
         # Year navigation row
         year_frame = tk.Frame(header_frame, bg="#FF69B4")
         year_frame.pack(fill=tk.X)
-        
+
         # Year navigation buttons
         prev_year_btn = tk.Button(
             year_frame,
@@ -156,19 +157,15 @@ class DatingApp:
             fg="white",
             relief=tk.FLAT,
             cursor="hand2",
-            command=lambda: self.change_year(popup, -1)
+            command=lambda: self.change_year(popup, -1),
         )
         prev_year_btn.pack(side=tk.LEFT)
-        
+
         year_label = tk.Label(
-            year_frame,
-            text="",
-            font=("Arial", 12, "bold"),
-            bg="#FF69B4",
-            fg="white"
+            year_frame, text="", font=("Arial", 12, "bold"), bg="#FF69B4", fg="white"
         )
         year_label.pack(side=tk.LEFT, expand=True)
-        
+
         next_year_btn = tk.Button(
             year_frame,
             text="▶",
@@ -177,14 +174,14 @@ class DatingApp:
             fg="white",
             relief=tk.FLAT,
             cursor="hand2",
-            command=lambda: self.change_year(popup, 1)
+            command=lambda: self.change_year(popup, 1),
         )
         next_year_btn.pack(side=tk.RIGHT)
-        
+
         # Month navigation row
         month_frame = tk.Frame(header_frame, bg="#FF69B4")
         month_frame.pack(fill=tk.X)
-        
+
         # Month navigation buttons
         prev_month_btn = tk.Button(
             month_frame,
@@ -194,19 +191,15 @@ class DatingApp:
             fg="white",
             relief=tk.FLAT,
             cursor="hand2",
-            command=lambda: self.change_month(popup, -1)
+            command=lambda: self.change_month(popup, -1),
         )
         prev_month_btn.pack(side=tk.LEFT)
-        
+
         month_label = tk.Label(
-            month_frame,
-            text="",
-            font=("Arial", 14, "bold"),
-            bg="#FF69B4",
-            fg="white"
+            month_frame, text="", font=("Arial", 14, "bold"), bg="#FF69B4", fg="white"
         )
         month_label.pack(side=tk.LEFT, expand=True)
-        
+
         next_month_btn = tk.Button(
             month_frame,
             text="▶",
@@ -215,10 +208,10 @@ class DatingApp:
             fg="white",
             relief=tk.FLAT,
             cursor="hand2",
-            command=lambda: self.change_month(popup, 1)
+            command=lambda: self.change_month(popup, 1),
         )
         next_month_btn.pack(side=tk.RIGHT)
-        
+
         # Add hover effects for all buttons
         prev_year_btn.bind("<Enter>", lambda e: prev_year_btn.config(bg="#FFE5E5"))
         prev_year_btn.bind("<Leave>", lambda e: prev_year_btn.config(bg="#FF69B4"))
@@ -228,21 +221,21 @@ class DatingApp:
         prev_month_btn.bind("<Leave>", lambda e: prev_month_btn.config(bg="#FF69B4"))
         next_month_btn.bind("<Enter>", lambda e: next_month_btn.config(bg="#FFE5E5"))
         next_month_btn.bind("<Leave>", lambda e: next_month_btn.config(bg="#FF69B4"))
-        
+
         # Calendar frame
         cal_frame = tk.Frame(popup, bg="#FFE5E5")
         cal_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=5)
-        
+
         # Store references for the calendar update function
         self.cal_popup = popup
         self.cal_month_label = month_label
         self.cal_year_label = year_label
         self.cal_frame = cal_frame
         self.cal_entry = entry_widget
-        
+
         # Initial calendar display
         self.update_calendar_display()
-        
+
         # Close button
         close_btn = tk.Button(
             popup,
@@ -252,7 +245,7 @@ class DatingApp:
             fg="white",
             relief=tk.FLAT,
             cursor="hand2",
-            command=popup.destroy
+            command=popup.destroy,
         )
         close_btn.pack(pady=10)
         close_btn.bind("<Enter>", lambda e: close_btn.config(bg="#FF69B4"))
@@ -266,7 +259,7 @@ class DatingApp:
             self.cal_year = 1900
         elif self.cal_year > 2100:
             self.cal_year = 2100
-        
+
         self.update_calendar_display()
 
     def change_month(self, popup, direction):
@@ -278,24 +271,24 @@ class DatingApp:
         elif self.cal_month < 1:
             self.cal_month = 12
             self.cal_year -= 1
-        
+
         self.update_calendar_display()
 
     def update_calendar_display(self):
         """Update the calendar display"""
-        
+
         # Update year and month labels
         self.cal_year_label.config(text=str(self.cal_year))
         month_name = calendar.month_name[self.cal_month]
         self.cal_month_label.config(text=month_name)
-        
+
         # Clear existing calendar
         for widget in self.cal_frame.winfo_children():
             widget.destroy()
-        
+
         # Get calendar data
         cal_data = calendar.monthcalendar(self.cal_year, self.cal_month)
-        
+
         # Days of week header
         days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
         for i, day in enumerate(days):
@@ -305,16 +298,16 @@ class DatingApp:
                 font=("Arial", 10, "bold"),
                 bg="#FFE5E5",
                 fg="#FF1493",
-                width=4
+                width=4,
             )
             label.grid(row=0, column=i, padx=1, pady=1)
-        
+
         # Calendar days
         for week_num, week in enumerate(cal_data):
             for day_num, day in enumerate(week):
                 if day == 0:
                     continue
-                
+
                 day_btn = tk.Button(
                     self.cal_frame,
                     text=str(day),
@@ -325,14 +318,14 @@ class DatingApp:
                     cursor="hand2",
                     width=4,
                     height=1,
-                    command=lambda d=day: self.select_date(d)
+                    command=lambda d=day: self.select_date(d),
                 )
                 day_btn.grid(row=week_num + 1, column=day_num, padx=1, pady=1)
-                
+
                 # Add hover effects
                 day_btn.bind("<Enter>", lambda e, btn=day_btn: btn.config(bg="#FFE5E5"))
                 day_btn.bind("<Leave>", lambda e, btn=day_btn: btn.config(bg="white"))
-        
+
         # Disable future dates
         today = datetime.now()
         if self.cal_year == today.year and self.cal_month == today.month:
@@ -441,7 +434,7 @@ class DatingApp:
         # Content - centered container
         content = tk.Frame(frame, bg="#FFE5E5")
         content.pack(fill=tk.BOTH, expand=True)
-        
+
         # Center frame for the form
         center_frame = tk.Frame(content, bg="#FFE5E5")
         center_frame.place(relx=0.5, rely=0.5, anchor="center")
@@ -486,7 +479,7 @@ class DatingApp:
 
         # Buttons
         btn_frame = tk.Frame(center_frame, bg="#FFE5E5")
-        btn_frame.pack(pady=30)
+        btn_frame.pack(pady=30, fill=tk.X)
 
         submit_btn = tk.Button(
             btn_frame,
@@ -494,29 +487,27 @@ class DatingApp:
             font=("Arial", 15, "bold"),
             bg="#FF69B4",
             fg="white",
-            width=20,
-            height=2,
             relief=tk.FLAT,
             cursor="hand2",
             state=tk.DISABLED,
+            disabledforeground="#FFB6D9",
             command=lambda: self.login(email_entry.get(), password_entry.get()),
         )
-        submit_btn.pack(pady=10)
+        submit_btn.pack(pady=10, fill=tk.X, ipady=10)
 
         back_btn = tk.Button(
             btn_frame,
             text="← Back",
             font=("Arial", 12),
-            bg="#DDD",
+            bg="#FFB6D9",
             fg="#333",
-            width=20,
             relief=tk.FLAT,
             cursor="hand2",
             command=self.show_home_page,
         )
-        back_btn.pack(pady=10)
-        back_btn.bind("<Enter>", lambda e: back_btn.config(bg="#CCC"))
-        back_btn.bind("<Leave>", lambda e: back_btn.config(bg="#DDD"))
+        back_btn.pack(pady=10, fill=tk.X, ipady=10)
+        back_btn.bind("<Enter>", lambda e: back_btn.config(bg="#FF99C8"))
+        back_btn.bind("<Leave>", lambda e: back_btn.config(bg="#FFB6D9"))
 
         def check_fields(*args):
             if email_entry.get().strip() and password_entry.get().strip():
@@ -686,7 +677,7 @@ class DatingApp:
         ).pack(anchor=tk.W)
         # Custom date entry with working navigation
         dob_entry = self.create_custom_date_entry(dob_frame)
-        dob_entry.pack(pady=5, ipady=2)
+        dob_entry.pack(anchor=tk.W, pady=5, ipady=2)
 
         # Gender Interest
         interest_frame = tk.Frame(content, bg="#FFE5E5")
@@ -742,7 +733,7 @@ class DatingApp:
 
         # Submit Button
         btn_frame = tk.Frame(content, bg="#FFE5E5")
-        btn_frame.pack(pady=25)
+        btn_frame.pack(pady=25, fill=tk.X)
 
         submit_btn = tk.Button(
             btn_frame,
@@ -750,11 +741,10 @@ class DatingApp:
             font=("Arial", 15, "bold"),
             bg="#FF1493",
             fg="white",
-            width=25,
-            height=2,
             relief=tk.FLAT,
             cursor="hand2",
             state=tk.DISABLED,
+            disabledforeground="#FFB6D9",
             command=lambda: self.register(
                 fullname_entry.get(),
                 email_entry.get(),
@@ -766,22 +756,21 @@ class DatingApp:
                 bio_text.get("1.0", tk.END).strip(),
             ),
         )
-        submit_btn.pack(pady=10)
+        submit_btn.pack(pady=10, fill=tk.X, ipady=10)
 
         back_btn = tk.Button(
             btn_frame,
             text="← Back",
             font=("Arial", 12),
-            bg="#DDD",
+            bg="#FFB6D9",
             fg="#333",
-            width=25,
             relief=tk.FLAT,
             cursor="hand2",
             command=self.show_home_page,
         )
-        back_btn.pack(pady=10)
-        back_btn.bind("<Enter>", lambda e: back_btn.config(bg="#CCC"))
-        back_btn.bind("<Leave>", lambda e: back_btn.config(bg="#DDD"))
+        back_btn.pack(pady=10, fill=tk.X, ipady=10)
+        back_btn.bind("<Enter>", lambda e: back_btn.config(bg="#FF99C8"))
+        back_btn.bind("<Leave>", lambda e: back_btn.config(bg="#FFB6D9"))
 
         def check_email(*args):
             email = email_entry.get().strip()

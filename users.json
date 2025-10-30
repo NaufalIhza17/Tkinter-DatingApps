@@ -20,5 +20,16 @@
       "Female"
     ],
     "bio": "Smart"
+  },
+  {
+    "fullname": "Hanifi Abrar Setiawan",
+    "email": "hanifi@gmail.com",
+    "password": "f22ca91ddd34104e3320f5cfbea0ce12eacc4ce8272f3864bd7b70199444b095",
+    "gender": "Male",
+    "dob": "2025-10-28",
+    "interests": [
+      "Female"
+    ],
+    "bio": "Non-chalant person"
   }
 ]
